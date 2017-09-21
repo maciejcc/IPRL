@@ -1,0 +1,512 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../decorator.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="pageTitle">
+        pageTitle
+    </ui:define>
+
+
+    <ui:define name="content">
+        <h:form>
+            <h:commandButton value="Wygeneruj terminarz" action="#{matchController.createSchedule()}" rendered="#{matchController.matchesList.size() == 0}"/>
+            <p:messages autoUpdate="true" />
+        </h:form>
+
+
+        <p:tabView>
+            <p:tab title="Kolejka 1" rendered="#{roundController.roundsList.size() > 0}" >
+                <p:dataTable var="item" value="#{matchController.getMatchesListOnRound(1)}" >
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player1.firstName} #{item.player1.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}"  style="font-size: 10px;" action="#{matchController.getWalkover1(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column width="400px;" headerText="Wynik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.scorePlayer1}:#{item.scorePlayer2} " rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set1Player1}:#{item.set1Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set2Player1}:#{item.set2Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set3Player1}:#{item.set3Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set4Player1}:#{item.set4Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set5Player1}:#{item.set5Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=5}"/>
+                        <h:outputText value="(#{item.set6Player1}:#{item.set6Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=6}"/>
+                        <h:outputText value="(#{item.set7Player1}:#{item.set7Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=7}"/>
+                        <h:outputText style="font-weight:bold;"  value=":" rendered="#{!item.finished}"/>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <h:form>
+                            <p:commandButton style="float: right" action="#{matchController.goToAdminEditMatch(item)}" rendered="#{!item.finished}"  icon="ui-icon-pencil"/>
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player2.firstName} #{item.player2.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}" style="font-size: 10px;" action="#{matchController.getWalkover2(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Miejsce i data spotkania" style="text-align: center">
+                        <h:outputText value="#{item.matchDate}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                        </h:outputText>
+                        <h:outputText style="font-weight: bold" value=" #{item.matchPlace}" />
+                        <h:outputText style="font-style: italic" value="Jeszcze nie ustalono" rendered="#{item.matchPlace == NULL}"/>
+                    </p:column>   
+                </p:dataTable>
+            </p:tab>
+            <p:tab title="Kolejka 2" rendered="#{roundController.roundsList.size() > 1}" >
+                <p:dataTable var="item" value="#{matchController.getMatchesListOnRound(2)}" >
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player1.firstName} #{item.player1.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}"  style="font-size: 10px;" action="#{matchController.getWalkover1(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column width="400px;" headerText="Wynik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.scorePlayer1}:#{item.scorePlayer2} " rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set1Player1}:#{item.set1Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set2Player1}:#{item.set2Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set3Player1}:#{item.set3Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set4Player1}:#{item.set4Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set5Player1}:#{item.set5Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=5}"/>
+                        <h:outputText value="(#{item.set6Player1}:#{item.set6Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=6}"/>
+                        <h:outputText value="(#{item.set7Player1}:#{item.set7Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=7}"/>
+                        <h:outputText style="font-weight:bold;"  value=":" rendered="#{!item.finished}"/>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <h:form>
+                            <p:commandButton style="float: right" action="#{matchController.goToAdminEditMatch(item)}" rendered="#{!item.finished}"  icon="ui-icon-pencil"/>
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player2.firstName} #{item.player2.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}" style="font-size: 10px;" action="#{matchController.getWalkover2(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Miejsce i data spotkania" style="text-align: center">
+                        <h:outputText value="#{item.matchDate}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                        </h:outputText>
+                        <h:outputText style="font-weight: bold" value=" #{item.matchPlace}" />
+                        <h:outputText style="font-style: italic" value="Jeszcze nie ustalono" rendered="#{item.matchPlace == NULL}"/>
+                    </p:column>   
+                </p:dataTable>
+            </p:tab>
+            <p:tab title="Kolejka 3" rendered="#{roundController.roundsList.size() > 2}" >
+                <p:dataTable var="item" value="#{matchController.getMatchesListOnRound(3)}" >
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player1.firstName} #{item.player1.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}"  style="font-size: 10px;" action="#{matchController.getWalkover1(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column width="400px;" headerText="Wynik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.scorePlayer1}:#{item.scorePlayer2} " rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set1Player1}:#{item.set1Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set2Player1}:#{item.set2Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set3Player1}:#{item.set3Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set4Player1}:#{item.set4Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set5Player1}:#{item.set5Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=5}"/>
+                        <h:outputText value="(#{item.set6Player1}:#{item.set6Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=6}"/>
+                        <h:outputText value="(#{item.set7Player1}:#{item.set7Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=7}"/>
+                        <h:outputText style="font-weight:bold;"  value=":" rendered="#{!item.finished}"/>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <h:form>
+                            <p:commandButton style="float: right" action="#{matchController.goToAdminEditMatch(item)}" rendered="#{!item.finished}"  icon="ui-icon-pencil"/>
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player2.firstName} #{item.player2.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}" style="font-size: 10px;" action="#{matchController.getWalkover2(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Miejsce i data spotkania" style="text-align: center">
+                        <h:outputText value="#{item.matchDate}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                        </h:outputText>
+                        <h:outputText style="font-weight: bold" value=" #{item.matchPlace}" />
+                        <h:outputText style="font-style: italic" value="Jeszcze nie ustalono" rendered="#{item.matchPlace == NULL}"/>
+                    </p:column>   
+                </p:dataTable>
+            </p:tab>
+            <p:tab title="Kolejka 4" rendered="#{roundController.roundsList.size() > 3}" >
+                <p:dataTable var="item" value="#{matchController.getMatchesListOnRound(4)}" >
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player1.firstName} #{item.player1.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}"  style="font-size: 10px;" action="#{matchController.getWalkover1(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column width="400px;" headerText="Wynik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.scorePlayer1}:#{item.scorePlayer2} " rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set1Player1}:#{item.set1Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set2Player1}:#{item.set2Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set3Player1}:#{item.set3Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set4Player1}:#{item.set4Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set5Player1}:#{item.set5Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=5}"/>
+                        <h:outputText value="(#{item.set6Player1}:#{item.set6Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=6}"/>
+                        <h:outputText value="(#{item.set7Player1}:#{item.set7Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=7}"/>
+                        <h:outputText style="font-weight:bold;"  value=":" rendered="#{!item.finished}"/>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <h:form>
+                            <p:commandButton style="float: right" action="#{matchController.goToAdminEditMatch(item)}" rendered="#{!item.finished}"  icon="ui-icon-pencil"/>
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player2.firstName} #{item.player2.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}" style="font-size: 10px;" action="#{matchController.getWalkover2(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Miejsce i data spotkania" style="text-align: center">
+                        <h:outputText value="#{item.matchDate}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                        </h:outputText>
+                        <h:outputText style="font-weight: bold" value=" #{item.matchPlace}" />
+                        <h:outputText style="font-style: italic" value="Jeszcze nie ustalono" rendered="#{item.matchPlace == NULL}"/>
+                    </p:column>   
+                </p:dataTable>
+            </p:tab>
+            <p:tab title="Kolejka 5" rendered="#{roundController.roundsList.size() > 4}" >
+                <p:dataTable var="item" value="#{matchController.getMatchesListOnRound(5)}" >
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player1.firstName} #{item.player1.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}"  style="font-size: 10px;" action="#{matchController.getWalkover1(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column width="400px;" headerText="Wynik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.scorePlayer1}:#{item.scorePlayer2} " rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set1Player1}:#{item.set1Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set2Player1}:#{item.set2Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set3Player1}:#{item.set3Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set4Player1}:#{item.set4Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set5Player1}:#{item.set5Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=5}"/>
+                        <h:outputText value="(#{item.set6Player1}:#{item.set6Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=6}"/>
+                        <h:outputText value="(#{item.set7Player1}:#{item.set7Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=7}"/>
+                        <h:outputText style="font-weight:bold;"  value=":" rendered="#{!item.finished}"/>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <h:form>
+                            <p:commandButton style="float: right" action="#{matchController.goToAdminEditMatch(item)}" rendered="#{!item.finished}"  icon="ui-icon-pencil"/>
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player2.firstName} #{item.player2.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}" style="font-size: 10px;" action="#{matchController.getWalkover2(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Miejsce i data spotkania" style="text-align: center">
+                        <h:outputText value="#{item.matchDate}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                        </h:outputText>
+                        <h:outputText style="font-weight: bold" value=" #{item.matchPlace}" />
+                        <h:outputText style="font-style: italic" value="Jeszcze nie ustalono" rendered="#{item.matchPlace == NULL}"/>
+                    </p:column>   
+                </p:dataTable>
+            </p:tab>
+            <p:tab title="Kolejka 6" rendered="#{roundController.roundsList.size() > 5}" >
+                <p:dataTable var="item" value="#{matchController.getMatchesListOnRound(6)}" >
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player1.firstName} #{item.player1.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}"  style="font-size: 10px;" action="#{matchController.getWalkover1(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column width="400px;" headerText="Wynik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.scorePlayer1}:#{item.scorePlayer2} " rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set1Player1}:#{item.set1Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set2Player1}:#{item.set2Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set3Player1}:#{item.set3Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set4Player1}:#{item.set4Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set5Player1}:#{item.set5Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=5}"/>
+                        <h:outputText value="(#{item.set6Player1}:#{item.set6Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=6}"/>
+                        <h:outputText value="(#{item.set7Player1}:#{item.set7Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=7}"/>
+                        <h:outputText style="font-weight:bold;"  value=":" rendered="#{!item.finished}"/>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <h:form>
+                            <p:commandButton style="float: right" action="#{matchController.goToAdminEditMatch(item)}" rendered="#{!item.finished}"  icon="ui-icon-pencil"/>
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player2.firstName} #{item.player2.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}" style="font-size: 10px;" action="#{matchController.getWalkover2(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Miejsce i data spotkania" style="text-align: center">
+                        <h:outputText value="#{item.matchDate}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                        </h:outputText>
+                        <h:outputText style="font-weight: bold" value=" #{item.matchPlace}" />
+                        <h:outputText style="font-style: italic" value="Jeszcze nie ustalono" rendered="#{item.matchPlace == NULL}"/>
+                    </p:column>   
+                </p:dataTable>
+            </p:tab>
+            <p:tab title="Kolejka 7" rendered="#{roundController.roundsList.size() > 6}" >
+                <p:dataTable var="item" value="#{matchController.getMatchesListOnRound(7)}" >
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player1.firstName} #{item.player1.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}"  style="font-size: 10px;" action="#{matchController.getWalkover1(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column width="400px;" headerText="Wynik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.scorePlayer1}:#{item.scorePlayer2} " rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set1Player1}:#{item.set1Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set2Player1}:#{item.set2Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set3Player1}:#{item.set3Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set4Player1}:#{item.set4Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set5Player1}:#{item.set5Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=5}"/>
+                        <h:outputText value="(#{item.set6Player1}:#{item.set6Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=6}"/>
+                        <h:outputText value="(#{item.set7Player1}:#{item.set7Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=7}"/>
+                        <h:outputText style="font-weight:bold;"  value=":" rendered="#{!item.finished}"/>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <h:form>
+                            <p:commandButton style="float: right" action="#{matchController.goToAdminEditMatch(item)}" rendered="#{!item.finished}"  icon="ui-icon-pencil"/>
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player2.firstName} #{item.player2.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}" style="font-size: 10px;" action="#{matchController.getWalkover2(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Miejsce i data spotkania" style="text-align: center">
+                        <h:outputText value="#{item.matchDate}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                        </h:outputText>
+                        <h:outputText style="font-weight: bold" value=" #{item.matchPlace}" />
+                        <h:outputText style="font-style: italic" value="Jeszcze nie ustalono" rendered="#{item.matchPlace == NULL}"/>
+                    </p:column>   
+                </p:dataTable>
+            </p:tab>
+            <p:tab title="Kolejka 8" rendered="#{roundController.roundsList.size() > 7}" >
+                <p:dataTable var="item" value="#{matchController.getMatchesListOnRound(8)}" >
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player1.firstName} #{item.player1.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}"  style="font-size: 10px;" action="#{matchController.getWalkover1(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column width="400px;" headerText="Wynik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.scorePlayer1}:#{item.scorePlayer2} " rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set1Player1}:#{item.set1Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set2Player1}:#{item.set2Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set3Player1}:#{item.set3Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set4Player1}:#{item.set4Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set5Player1}:#{item.set5Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=5}"/>
+                        <h:outputText value="(#{item.set6Player1}:#{item.set6Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=6}"/>
+                        <h:outputText value="(#{item.set7Player1}:#{item.set7Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=7}"/>
+                        <h:outputText style="font-weight:bold;"  value=":" rendered="#{!item.finished}"/>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <h:form>
+                            <p:commandButton style="float: right" action="#{matchController.goToAdminEditMatch(item)}" rendered="#{!item.finished}"  icon="ui-icon-pencil"/>
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player2.firstName} #{item.player2.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}" style="font-size: 10px;" action="#{matchController.getWalkover2(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Miejsce i data spotkania" style="text-align: center">
+                        <h:outputText value="#{item.matchDate}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                        </h:outputText>
+                        <h:outputText style="font-weight: bold" value=" #{item.matchPlace}" />
+                        <h:outputText style="font-style: italic" value="Jeszcze nie ustalono" rendered="#{item.matchPlace == NULL}"/>
+                    </p:column>   
+                </p:dataTable>
+            </p:tab>
+            <p:tab title="Kolejka 9" rendered="#{roundController.roundsList.size() > 8}" >
+                <p:dataTable var="item" value="#{matchController.getMatchesListOnRound(9)}" >
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player1.firstName} #{item.player1.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}"  style="font-size: 10px;" action="#{matchController.getWalkover1(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column width="400px;" headerText="Wynik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.scorePlayer1}:#{item.scorePlayer2} " rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set1Player1}:#{item.set1Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set2Player1}:#{item.set2Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set3Player1}:#{item.set3Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set4Player1}:#{item.set4Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set5Player1}:#{item.set5Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=5}"/>
+                        <h:outputText value="(#{item.set6Player1}:#{item.set6Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=6}"/>
+                        <h:outputText value="(#{item.set7Player1}:#{item.set7Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=7}"/>
+                        <h:outputText style="font-weight:bold;"  value=":" rendered="#{!item.finished}"/>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <h:form>
+                            <p:commandButton style="float: right" action="#{matchController.goToAdminEditMatch(item)}" rendered="#{!item.finished}"  icon="ui-icon-pencil"/>
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player2.firstName} #{item.player2.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}" style="font-size: 10px;" action="#{matchController.getWalkover2(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Miejsce i data spotkania" style="text-align: center">
+                        <h:outputText value="#{item.matchDate}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                        </h:outputText>
+                        <h:outputText style="font-weight: bold" value=" #{item.matchPlace}" />
+                        <h:outputText style="font-style: italic" value="Jeszcze nie ustalono" rendered="#{item.matchPlace == NULL}"/>
+                    </p:column>   
+                </p:dataTable>
+            </p:tab>
+            <p:tab title="Kolejka 10" rendered="#{roundController.roundsList.size() > 9}" >
+                <p:dataTable var="item" value="#{matchController.getMatchesListOnRound(10)}" >
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player1.firstName} #{item.player1.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}"  style="font-size: 10px;" action="#{matchController.getWalkover1(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column width="400px;" headerText="Wynik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.scorePlayer1}:#{item.scorePlayer2} " rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set1Player1}:#{item.set1Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set2Player1}:#{item.set2Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set3Player1}:#{item.set3Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set4Player1}:#{item.set4Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set5Player1}:#{item.set5Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=5}"/>
+                        <h:outputText value="(#{item.set6Player1}:#{item.set6Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=6}"/>
+                        <h:outputText value="(#{item.set7Player1}:#{item.set7Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=7}"/>
+                        <h:outputText style="font-weight:bold;"  value=":" rendered="#{!item.finished}"/>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <h:form>
+                            <p:commandButton style="float: right" action="#{matchController.goToAdminEditMatch(item)}" rendered="#{!item.finished}"  icon="ui-icon-pencil"/>
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player2.firstName} #{item.player2.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}" style="font-size: 10px;" action="#{matchController.getWalkover2(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Miejsce i data spotkania" style="text-align: center">
+                        <h:outputText value="#{item.matchDate}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                        </h:outputText>
+                        <h:outputText style="font-weight: bold" value=" #{item.matchPlace}" />
+                        <h:outputText style="font-style: italic" value="Jeszcze nie ustalono" rendered="#{item.matchPlace == NULL}"/>
+                    </p:column>   
+                </p:dataTable>
+            </p:tab>
+            <p:tab title="Kolejka 11" rendered="#{roundController.roundsList.size() > 10}" >
+                <p:dataTable var="item" value="#{matchController.getMatchesListOnRound(11)}" >
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player1.firstName} #{item.player1.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}"  style="font-size: 10px;" action="#{matchController.getWalkover1(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column width="400px;" headerText="Wynik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.scorePlayer1}:#{item.scorePlayer2} " rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set1Player1}:#{item.set1Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set2Player1}:#{item.set2Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set3Player1}:#{item.set3Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set4Player1}:#{item.set4Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set5Player1}:#{item.set5Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=5}"/>
+                        <h:outputText value="(#{item.set6Player1}:#{item.set6Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=6}"/>
+                        <h:outputText value="(#{item.set7Player1}:#{item.set7Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=7}"/>
+                        <h:outputText style="font-weight:bold;"  value=":" rendered="#{!item.finished}"/>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <h:form>
+                            <p:commandButton style="float: right" action="#{matchController.goToAdminEditMatch(item)}" rendered="#{!item.finished}"  icon="ui-icon-pencil"/>
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player2.firstName} #{item.player2.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}" style="font-size: 10px;" action="#{matchController.getWalkover2(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Miejsce i data spotkania" style="text-align: center">
+                        <h:outputText value="#{item.matchDate}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                        </h:outputText>
+                        <h:outputText style="font-weight: bold" value=" #{item.matchPlace}" />
+                        <h:outputText style="font-style: italic" value="Jeszcze nie ustalono" rendered="#{item.matchPlace == NULL}"/>
+                    </p:column>   
+                </p:dataTable>
+            </p:tab>
+            <p:tab title="Kolejka 12" rendered="#{roundController.roundsList.size() > 11}" >
+                <p:dataTable var="item" value="#{matchController.getMatchesListOnRound(12)}" >
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player1.firstName} #{item.player1.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}"  style="font-size: 10px;" action="#{matchController.getWalkover1(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column width="400px;" headerText="Wynik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.scorePlayer1}:#{item.scorePlayer2} " rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set1Player1}:#{item.set1Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set2Player1}:#{item.set2Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set3Player1}:#{item.set3Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set4Player1}:#{item.set4Player2})" rendered="#{item.finished}"/>
+                        <h:outputText value="(#{item.set5Player1}:#{item.set5Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=5}"/>
+                        <h:outputText value="(#{item.set6Player1}:#{item.set6Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=6}"/>
+                        <h:outputText value="(#{item.set7Player1}:#{item.set7Player2})" rendered="#{item.finished and (item.scorePlayer1 + item.scorePlayer2) >=7}"/>
+                        <h:outputText style="font-weight:bold;"  value=":" rendered="#{!item.finished}"/>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <h:form>
+                            <p:commandButton style="float: right" action="#{matchController.goToAdminEditMatch(item)}" rendered="#{!item.finished}"  icon="ui-icon-pencil"/>
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Zawodnik" style="text-align: center">
+                        <h:outputText style="font-weight:bold;" value="#{item.player2.firstName} #{item.player2.lastName}" />
+                        <h:form>
+                            <p:commandButton rendered="#{!item.finished}" style="font-size: 10px;" action="#{matchController.getWalkover2(item)}" value="Przyznaj walkover" />
+                        </h:form>
+                    </p:column>
+                    <p:column headerText="Miejsce i data spotkania" style="text-align: center">
+                        <h:outputText value="#{item.matchDate}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                        </h:outputText>
+                        <h:outputText style="font-weight: bold" value=" #{item.matchPlace}" />
+                        <h:outputText style="font-style: italic" value="Jeszcze nie ustalono" rendered="#{item.matchPlace == NULL}"/>
+                    </p:column>   
+                </p:dataTable>
+            </p:tab>
+            <p:tab title="Kolejka 13" rendered="#{roundController.roundsList.size() > 12}" >
+                <h:outputText value="2" />
+            </p:tab>
+            <p:tab title="Kolejka 14" rendered="#{roundController.roundsList.size() > 13}" >
+                <h:outputText value="2" />
+            </p:tab>
+            <p:tab title="Kolejka 15" rendered="#{roundController.roundsList.size() > 14}" >
+                <h:outputText value="2" />
+            </p:tab>
+            <p:tab title="Kolejka 16" rendered="#{roundController.roundsList.size() > 15}" >
+                <h:outputText value="2" />
+            </p:tab>
+
+        </p:tabView>
+        <h:form>
+            <p:commandButton  rendered="#{matchController.matchesList.size() > 0}" style="font-size: 10px;" action="#{matchController.deleteAllMatches()}" value="Usuń terminarz" />
+        </h:form>
+         <h:form>
+             <p:commandButton  rendered="#{matchController.matchesList.size() > 0}" style="font-size: 10px;" action="#{matchController.resetPlayersStats()}" value="Resetuj statystyki zawodników" />
+        </h:form>
+    </ui:define>
+
+</ui:composition>

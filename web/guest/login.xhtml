@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../decorator.xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+                xmlns:p="http://primefaces.org/ui">
+    
+    <ui:define name="content">
+            <f:view>
+                 <p:messages autoUpdate="true" />
+                <div id="form" align="center">
+                 <h:outputText value="Logowanie" style="font-size: 28; font-weight: bold;"/>
+                <h:form>
+                  <h:panelGrid columns="2" style="margin-top: 15px;">
+                    <h:outputLabel value="Login:" for="login" />
+                    <h:inputText id="login" value="#{playerController.currentPlayer.login}" title="Login" />
+                    <h:outputLabel value="Hasło:" for="password" />
+                    <h:inputSecret  id="password" value="#{playerController.currentPlayer.passwordConfirm}" title="Password" />
+                     <h:outputLabel value="" for="login" />
+                     <h:commandButton value="Zaloguj" action="#{playerController.loggIn()}">
+                    </h:commandButton>
+                </h:panelGrid>
+            </h:form>
+            </div>          
+        </f:view>
+    </ui:define>
+
+
+</ui:composition>

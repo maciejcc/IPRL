@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../decorator.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <f:view>
+            <p:messages autoUpdate="true" />
+            <div id="addNews">
+                <h3 style="text-align: center; font-size: 22"> Dodawania ogłoszenia</h3>
+                <h:form>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Tytuł ogłoszenia" for="title" />
+                        <h:inputText id="title" value="#{newsController.currentNews.title}" title="title" />
+                        <h:outputLabel value="Treść ogłoszenia" />
+                        <p:inputTextarea title="textNews" value="#{newsController.currentNews.textNews}"   id="textNews"  rows="10" cols="50" />
+                        <h:outputLabel value="" />
+                        <h:commandButton value="Dodaj ogłoszenie" action="#{newsController.addNews()}"/>
+                    </h:panelGrid>
+                </h:form>
+            </div>
+            <div id="mailToAll">
+                 <h3 style="text-align: center; font-size: 22"> Wyślij e-mail do wszystkich</h3>
+                <h:form>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Temat e-maila" for="title" />
+                        <h:inputText id="title" value="#{subject}" title="title" />
+                        <h:outputLabel value="Treść wiadomości" />
+                        <p:inputTextarea title="textNews" value="#{text}"   id="textNews"  rows="10" cols="50" />
+                        <h:outputLabel value="" />
+                        <h:commandButton value="Wyślij e-mail" action="#{matchController.sendMailToAll(playerController.allPlayers, subject, text)}"/>
+                    </h:panelGrid>
+                </h:form>
+            </div>
+        </f:view>
+    </ui:define>
+
+</ui:composition>

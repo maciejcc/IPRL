@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../decorator.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+         <h:form id="form"> 
+               <p:panelGrid style="margin-top:20px; text-align: center">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column colspan="2">Wynik meczu</p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column>
+                        <h:outputText id="Zawodnik1" value="#{matchController.selectMatch.player1.firstName} #{matchController.selectMatch.player1.lastName}" title="LastName" />
+                    </p:column>
+                    <p:column>
+                        <h:outputText id="Zawodnik2" value="#{matchController.selectMatch.player2.firstName} #{matchController.selectMatch.player2.lastName}" title="LastName" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column style="font-weight: bold; text-align: center;" colspan="2">Wynik meczu w setach</p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:inputText id="scorePlayer1" value="#{matchController.selectMatch.scorePlayer1}" title="set1Player1" />
+                    </p:column>
+                    <p:column>
+                        <h:inputText id="scorePlayer2" value="#{matchController.selectMatch.scorePlayer2}" title="set1Player2" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column style="font-weight: bold; text-align: center;" colspan="2">SET 1</p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:inputText id="set1Player1" value="#{matchController.selectMatch.set1Player1}" title="set1Player1" />
+                    </p:column>
+                    <p:column>
+                        <h:inputText id="set1Player2" value="#{matchController.selectMatch.set1Player2}" title="set1Player2" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column style="font-weight: bold; text-align: center;" colspan="2">SET 2</p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:inputText id="set2Player1" value="#{matchController.selectMatch.set2Player1}" title="set2Player1" />
+                    </p:column>
+                    <p:column>
+                        <h:inputText id="set2Player2" value="#{matchController.selectMatch.set2Player2}" title="set2Player2" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column style="font-weight: bold; text-align: center;" colspan="2">SET 3</p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:inputText id="set3Player1" value="#{matchController.selectMatch.set3Player1}" title="set3Player1" />
+                    </p:column>
+                    <p:column>
+                        <h:inputText id="set3Player2" value="#{matchController.selectMatch.set3Player2}" title="set3Player2" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column style="font-weight: bold; text-align: center;" colspan="2">SET 4</p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:inputText id="set4Player1" value="#{matchController.selectMatch.set4Player1}" title="set4Player1" />
+                    </p:column>
+                    <p:column>
+                        <h:inputText id="set4Player2" value="#{matchController.selectMatch.set4Player2}" title="set4Player2" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column style="font-weight: bold; text-align: center;" colspan="2">SET 5</p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:inputText id="set5Player1" value="#{matchController.selectMatch.set5Player1}" title="set5Player1" />
+                    </p:column>
+                    <p:column>
+                        <h:inputText id="set5Player2" value="#{matchController.selectMatch.set5Player2}" title="set5Player2" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column style="font-weight: bold; text-align: center;" colspan="2">SET 6</p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:inputText id="set6Player1" value="#{matchController.selectMatch.set6Player1}" title="set6Player1" />
+                    </p:column>
+                    <p:column>
+                        <h:inputText id="set6Player2" value="#{matchController.selectMatch.set6Player2}" title="set6Player2" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column style="font-weight: bold; text-align: center;" colspan="2">SET 7</p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:inputText id="set7Player1" value="#{matchController.selectMatch.set7Player1}" title="set7layer1" />
+                    </p:column>
+                    <p:column>
+                        <h:inputText id="set7Player2" value="#{matchController.selectMatch.set7Player2}" title="set7Player2" />
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <h:panelGrid columns="2" cellpadding="5">
+
+                <p:outputLabel for="datetime" value="Data i czas:" />
+                <p:calendar  id="datetime" value="#{matchController.selectMatch.matchDate}" pattern="MM/dd/yyyy HH:mm" />
+                
+            <h:outputLabel for="txt3" value="Miejsce spotkania" />
+            <h:selectOneMenu id="txt3" value="#{matchController.selectMatch.matchPlace}" required="true" label="Miejsce spotkania">
+                <f:selectItem itemLabel="Wybierz miejsce" itemValue="" noSelectionOption="true" />
+                <f:selectItem itemLabel="Segment F" itemValue="Segment F" />
+                <f:selectItem itemLabel="Segment G" itemValue="Segment G" />
+                <f:selectItem itemLabel="Segment H" itemValue="Segment H" />
+            </h:selectOneMenu>
+            </h:panelGrid>
+ 
+            <p:commandButton value="Edytuj i zapisz" action="#{matchController.adminEditMatch(matchController.selectMatch)}" icon="ui-icon-check" />
+
+
+            <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+                <p:panelGrid id="display" columns="2" columnClasses="label,value">
+                    <h:outputText value="Datetime:" />
+                    <h:outputText value="#{matchController.selectMatch.matchDate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm" />
+                    </h:outputText>
+                </p:panelGrid>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

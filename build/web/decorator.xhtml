@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="/css/IPRLstyle.css"/>
+    </h:head>
+
+    <h:body>
+
+        <div id="header">
+            <ui:insert name="top">
+                <h:graphicImage library="img" name="logo.png"/>
+            </ui:insert>
+        </div>
+        <div id="menu"> 
+            <h:form id="headerForm">
+                <p:toolbar>
+                <f:facet name="left">
+                    <p:menubar>
+                        <p:menuitem value="Strona główna" action="#{navigationController.goToHome()}" ajax="false"/>
+                      <p:menuitem  value="Tabela" action="#{navigationController.goToTable()}" ajax="false" />
+                       <p:menuitem value="Terminarz" action="#{navigationController.goToTimeTable()}" ajax="false" />
+                       <p:menuitem value="Mecze" action="#{navigationController.goToAdminMatches()}" ajax="false" rendered="#{playerController.currentPlayer.playerRole==1}" />
+                       <p:menuitem value="Moje mecze" action="#{navigationController.goToPlayerMatches()}" ajax="false" rendered="#{playerController.currentPlayer.playerRole==2}" >
+                           <f:actionListener binding="#{matchController.setCurrentPlayer(playerController.currentPlayer)}" />
+                       </p:menuitem>
+                       <p:submenu label="Użytkownicy" rendered="#{playerController.currentPlayer.playerRole==1}" >
+                          <p:menuitem value="Wszyscy użytkownicy" action="#{navigationController.goToAdminUsers()}" ajax="false" rendered="#{playerController.currentPlayer.playerRole==1}" />
+                          <p:menuitem value="Użytkownicy zgłoszeni do gry" action="#{navigationController.goToAdminUsersReadyToPlay()}" ajax="false"/>
+                          <p:menuitem value="Akceptacja zarejestrowanych kont" action="#{navigationController.goToAdminUsersToConfirm()}" ajax="false" rendered="#{playerController.usersToConfirm.size() > 0}"/>
+                       </p:submenu>
+                       <p:menuitem value="Zarzadzanie" action="#{navigationController.goToAdminMenage()}" ajax="false" rendered="#{playerController.currentPlayer.playerRole==1}" />
+                    <p:menuitem value="Regulamin" action="#{navigationController.goToRegulations()}" ajax="false" />
+                    <p:menuitem value="Profil" action="#{navigationController.goToAdminProfile()}" ajax="false" rendered="#{playerController.currentPlayer.playerRole==1}" />
+                     <p:menuitem value="Profil" action="#{navigationController.goToPlayerProfile()}" ajax="false" rendered="#{playerController.currentPlayer.playerRole==2}" />
+                    <p:menuitem value="Logowanie" action="#{navigationController.goToLogin()}" ajax="false" rendered="#{!playerController.logged}" />
+                    <p:menuitem value="Wyloguj" action="#{playerController.logOut()}" ajax="false" rendered="#{playerController.logged}" />
+                    <p:menuitem value="Rejestracja" action="#{navigationController.goToRegister()}" ajax="false" rendered="#{!playerController.logged}" />
+                    </p:menubar>
+                      </f:facet>
+
+                </p:toolbar>
+            </h:form>
+        </div>
+
+        <div id="page">
+            <div id="left">
+                <ui:insert name="left">
+
+                </ui:insert>
+            </div>
+            <div id="content">
+                <ui:insert name="content">
+
+                </ui:insert>
+            </div>
+            <div id="right">
+                <ui:insert name="right">
+
+                </ui:insert>
+            </div>
+        </div>
+        <div id="footer">
+            <hr noshade="noshade" width="76%" />
+            <ui:insert name="bottom">© 2017 Uniwersytet Jagielloński</ui:insert>
+        </div>
+
+    </h:body>
+
+</html>

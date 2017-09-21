@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../decorator.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <h:form id="form"> 
+            <h:panelGrid columns="2" cellpadding="5">
+
+                <p:outputLabel for="datetime" value="Data i czas:" />
+                <p:calendar  id="datetime" value="#{matchController.selectMatch.matchDate}" pattern="MM/dd/yyyy HH:mm" />
+                
+            <h:outputLabel for="txt3" value="Miejsce spotkania:" />
+            <h:selectOneMenu id="txt3" value="#{matchController.selectMatch.matchPlace}" required="true" label="Miejsce spotkania">
+                <f:selectItem itemLabel="Wybierz miejsce" itemValue="" noSelectionOption="true" />
+                <f:selectItem itemLabel="Segment F" itemValue="Segment F" />
+                <f:selectItem itemLabel="Segment G" itemValue="Segment G" />
+                <f:selectItem itemLabel="Segment H" itemValue="Segment H" />
+            </h:selectOneMenu>
+             <h:outputLabel value="" for="login" />
+            <p:commandButton value="Zaproponouj" actionListener="#{matchController.sendMail(matchController.selectMatch.player2.email,
+                                                                                            matchController.selectMatch.player2.email,
+                                                                                            'Zaproponowano termin i miejsce spotkania',
+                                                                                            'zaproponował datę i miejsce spotkania. Zaloguj się do portalu by zaakceptować termin lub zaproponować własny. Zapraszamy na www.iprl.com',
+                                                                                            matchController.currentPlayer.firstName, matchController.currentPlayer.lastName)}"
+                             action="#{matchController.editMatchPlace(matchController.selectMatch)}" rendered="#{matchController.selectMatch.player1.equals(matchController.currentPlayer)}"/>
+            
+              <p:commandButton value="Zaproponouj" actionListener="#{matchController.sendMail(matchController.selectMatch.player1.email,
+                                                                                            matchController.selectMatch.player2.email,
+                                                                                            'Zaproponowano termin i miejsce spotkania',
+                                                                                            'zaproponował datę i miejsce spotkania. Zaloguj się do portalu by zaakceptować termin lub zaproponować własny. Zapraszamy na www.iprl.com',
+                                                                                            matchController.currentPlayer.firstName, matchController.currentPlayer.lastName)}"
+                             action="#{matchController.editMatchPlace(matchController.selectMatch)}"  rendered="#{matchController.selectMatch.player2.equals(matchController.currentPlayer)}"/>
+               </h:panelGrid>
+            <p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+                <p:panelGrid id="display" columns="2" columnClasses="label,value">
+                    <h:outputText value="Datetime:" />
+                    <h:outputText value="#{matchController.selectMatch.matchDate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm" />
+                    </h:outputText>
+                </p:panelGrid>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

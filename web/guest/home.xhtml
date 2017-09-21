@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../decorator.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <p:messages autoUpdate="true"/>
+        <p:panel rendered="#{newsController.newsList.size() >=1}" id="news1" header="#{newsController.getSelectNews(0).title}" style="margin-bottom:20px; margin-top: 30px;">
+                    <h:outputText value="#{newsController.getSelectNews(0).textNews}" />
+                    <f:facet name="actions">
+                        <h:outputText styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"
+                                      value="#{newsController.getSelectNews(0).dateNews}">
+                            <f:convertDateTime pattern="dd.MM.yyyy" />
+                        </h:outputText>
+                    </f:facet>
+            </p:panel>
+            <p:panel  rendered="#{newsController.newsList.size() >=2}" id="news2" header="#{newsController.getSelectNews(1).title}" style="margin-bottom:20px">
+                    <h:outputText value="#{newsController.getSelectNews(1).textNews}" />
+                    <f:facet name="actions">
+                        <h:outputText styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"
+                                      value="#{newsController.getSelectNews(1).dateNews}">
+                            <f:convertDateTime pattern="dd.MM.yyyy" />
+                        </h:outputText>
+                    </f:facet>
+            </p:panel>     
+         <p:panel  rendered="#{newsController.newsList.size() >=3}" id="news3" header="#{newsController.getSelectNews(2).title}" style="margin-bottom:20px">
+                    <h:outputText value="#{newsController.getSelectNews(2).textNews}" />
+                     <f:facet name="actions">
+                        <h:outputText styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"
+                                      value="#{newsController.getSelectNews(2).dateNews}">
+                            <f:convertDateTime pattern="dd.MM.yyyy" />
+                        </h:outputText>
+                    </f:facet>
+            </p:panel>     
+         <p:panel  rendered="#{newsController.newsList.size() >=4}" id="news4" header="#{newsController.getSelectNews(3).title}" style="margin-bottom:20px">
+                    <h:outputText value="#{newsController.getSelectNews(3).textNews}" />
+                     <f:facet name="actions">
+                        <h:outputText styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default"
+                                      value="#{newsController.getSelectNews(3).dateNews}">
+                            <f:convertDateTime pattern="dd.MM.yyyy" />
+                        </h:outputText>
+                    </f:facet>
+            </p:panel>     
+    </ui:define>
+
+
+</ui:composition>

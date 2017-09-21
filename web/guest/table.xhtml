@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../decorator.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:define name="content">
+       
+     <h:form>
+            <p:dataTable  style="padding-top: 30px;" var="item" value="#{playerController.notifiedPlayers}">
+                <p:columnGroup type="header">
+                    <p:row>
+                        <p:column rowspan="2" headerText="Pozycja" />
+                        <p:column rowspan="2" headerText="Zawodnik" />
+                        <p:column colspan="3" headerText="Mecze" />
+                        <p:column colspan="3" headerText="Sety" />
+                        <p:column colspan="3" headerText="Punkty" />
+                    </p:row>
+                    <p:row>
+                        <p:column headerText="Wygrane" />
+                        <p:column headerText="Przegrane" />
+                        <p:column headerText="+/-" />
+                        <p:column headerText="Wygrane" />
+                        <p:column headerText="Przegrane" />
+                        <p:column headerText="+/-" />
+                        <p:column headerText="Zdobyte" />
+                        <p:column headerText="Stracone" />
+                        <p:column headerText="+/-" />
+                    </p:row>
+                </p:columnGroup>
+
+                <p:column>
+                    <h:outputText value="#{playerController.notifiedPlayers.indexOf(item) +1}"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.firstName} #{item.lastName}" />
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.wonMatches}" />
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.lostMatches}" />
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.balanceMatches}" />
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.wonSets}" />
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.lostSets}" />
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.balanceSets}" />
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.wonSmallPoints}" />
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.lostSmallPoints}" />
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{item.balanceSmallPoints}" />
+                </p:column>
+            </p:dataTable>
+            </h:form>
+                </ui:define>
+
+
+                </ui:composition>
